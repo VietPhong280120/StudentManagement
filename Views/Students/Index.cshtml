@@ -63,8 +63,13 @@
                  }
                  else
                  {
+                     var classes = ""
                     for(var i = 0;i<data.length;i++)
-                        return data[i].className
+                    {     
+                        classes += data[i].className+" ; ";
+                    }
+                        return classes
+
                  }
                  
              }
