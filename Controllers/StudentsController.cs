@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using StudentManagement.Models;
@@ -162,6 +163,23 @@ namespace StudentManagement.Controllers
                 return RedirectToAction("Index");
             }
             return View("Index");
+        }
+        [HttpGet]
+        public IActionResult GetClass()
+        {
+            var data = new SelectList(_context.Classes.ToList(), "Id", "Name");
+            return View(data);
+        }
+        [HttpPost]
+        public IActionResult GetStudentsForSelection()
+        {
+
+            var data = _context.Classes.Select(x => new SelectionViewModel()
+            {
+                Id = x.Id,
+                Text = x.ClassName,
+            }).ToList();
+            return Json(data);
         }
 
 

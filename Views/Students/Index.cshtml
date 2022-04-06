@@ -64,11 +64,15 @@
                  else
                  {
                      var classes = ""
+                     var classids = ""
                     for(var i = 0;i<data.length;i++)
                     {     
-                        classes += data[i].className+" ; ";
+                        classes += data[i].className+"; ";
+                        classids+=data[i].id
+
                     }
-                        return classes
+                    return '<a href="/Class/Edit/'+classids+'" >'+classes+'</a>'
+
 
                  }
                  

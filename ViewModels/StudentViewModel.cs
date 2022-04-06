@@ -15,5 +15,6 @@ namespace StudentManagement.Models
         public string PhoneNumber { get; set; }
         public string Address { get; set; }      
         public IEnumerable<ClassViewModel> Classes { get; set; }
+        public IEnumerable<int> ClassIds { get; set; }
     }
 }
