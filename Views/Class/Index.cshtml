@@ -1,0 +1,67 @@
+﻿@*@model StudentManagement.Models.Class ;*@
+@model SelectList;
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+ <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+ 
+<p>
+    <a href="/Class/Create" class="btn btn-primary" id="Create">Create</a>
+</p>
+<table class="table" id= "tbClass">
+    <thead>
+        <tr>
+            <th>
+                ClassName
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+               Amount
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+
+@section Scripts{
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#tbClass").dataTable(
+        {   processing:true,
+            serverSide:true,
+            ajax:{
+                type:'POST',
+                url:"/Class/GetData",
+                dataType: "json",
+
+            },  
+
+            columns: [
+            {'data':'className'},
+            {'data':'description'},
+            {'data':'amount'},
+            {'data':'id',
+            'render':function(data,type,row,meta){
+                return '<a class="btn btn-primary"href="/Class/Edit/'+data+'" >Edit</a>'+
+                      '<a class="btn btn-danger" href="/Class/Delete/'+data+'" style="margin-left:4px" >Delete</a>'+
+                      '<a class="btn btn-success" href="/Class/AddStudent/'+data+'" style="margin-left:4px" >Add</a>'
+            }
+            },
+            ]
+        }); 
+       
+        
+    });
+</script>
+}

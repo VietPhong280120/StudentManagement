@@ -1,0 +1,71 @@
+﻿@model StudentManagement.ViewModels.ClassViewModel
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<h4>Class</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+            
+          
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">List Student</label>
+                <select id = "lStudent"class="form-control" asp-for="StudentIds" multiple="multiple"asp-item="Model"> 
+                    <option value=""></option>
+                </select> 
+            </div>
+            <div class="form-group">
+                <label asp-for="ClassName" class="control-label"></label>
+                <input asp-for="ClassName" class="form-control" />
+                <span asp-validation-for="ClassName" class="text-danger"></span>
+            </div>
+              <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+        
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script>
+         $(document).ready(function () {
+             $("#lStudent").change(function(){
+                 var select=$(this).children("option:selected").map((_,e)=>e.value).get();
+                 console.log(select)
+                 return select
+             })
+          $.ajax({
+              url:"/Class/GetStudentsForSelection",
+              type:"POST",
+              dataType:"json",
+              success:function(result){
+                console.log(result)
+                $("#lStudent").select2({
+                    placeholder:"Choose student....",
+                    alowClear:true,
+                    data: result,
+             });
+              },
+
+          });
+        });
+
+    </script>
+}

@@ -1,0 +1,82 @@
+﻿@model StudentManagement.Models.Student
+@{
+    Layout = "_Layout";
+}
+<title>List Student</title>
+
+ <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+<p>
+    <a href="/Students/Create" class="btn btn-primary" id="Create">Create</a>
+</p>
+<table class="table" id="tbStudent">
+
+    <thead>
+        <tr>
+            <th>
+               Name
+            </th>
+            <th>
+                Date of Birth
+            </th>
+            <th>
+                Phone Number
+            </th>
+            <th>
+               Address
+            </th>
+            <th>
+               Class
+            </th>
+            <th>
+               Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+@section Scripts{
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#tbStudent").dataTable(
+        {   processing:true,
+            serverSide:true,
+            ajax:{
+                type:'POST',
+                url:"/Students/GetData",
+                dataType: "json",
+
+            },  
+
+            columns: [
+            {'data':'name'},
+            {'data':'dateofBirth'},
+            {'data':'phoneNumber'},
+            {'data':'address'},
+            {'data':'classes',
+             'render':function(data,type,row,meta){
+                 console.log(data)
+                 if(data.length==0)
+                 {
+                     return "";
+                 }
+                 else
+                 {
+                    for(var i = 0;i<data.length;i++)
+                        return data[i].className
+                 }
+                 
+             }
+            },
+            {'data':'id',
+            'render':function(data,type,row,meta){
+                return '<a class="btn btn-primary"href="/Students/Edit/'+data+'" >Edit</a>'+
+                      '<a class="btn btn-danger" href="/Students/Delete/'+data+'" style="margin-left:4px" >Delete</a>'
+            }
+            },
+            ]
+        });
+     });
+</script>
+}
